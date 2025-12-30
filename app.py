@@ -600,6 +600,7 @@ with tab4:
                         restecg, thalch, exang, oldpeak, slope, ca, thal]])
 
     features = scaler.transform(features)
+    features = np.array(features).reshape(1, -1)
 
     # --- Risk Assessment Results ---
     if st.button("🎯 Analyze Risk", use_container_width=True):
@@ -608,8 +609,16 @@ with tab4:
             "Decision Tree": dt, "SVC": svc, "XGBoost": xg,
             "CatBoost": cbc, "LightGBM": lgbm
         }
+        preds = {}
 
-        preds = {name: int(model.predict(features)[0]) for name, model in models.items()}
+        for name, model in models.items():
+            pred = model.predict(features)
+        
+            # Convert ANY prediction shape → single value
+            pred = np.array(pred).flatten()[0]
+        
+            preds[name] = int(pred)
+        
         final_pred = max(set(preds.values()), key=list(preds.values()).count)
 
         # Professional results display
