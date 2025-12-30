@@ -305,6 +305,7 @@ with open("corpus.pkl", "rb") as f:
 def download_nltk_data():
     nltk.download("punkt")
     nltk.download("wordnet")
+    nltk.download("punkt_tab")
     nltk.download("omw-1.4")
     nltk.download("averaged_perceptron_tagger")
     nltk.download("averaged_perceptron_tagger_eng")
